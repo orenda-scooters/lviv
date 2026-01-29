@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін-панель - ElectroRide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --dark: #0a0a1a;
+            --light: white;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #050510, #0a0a1a);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: rgba(0,0,0,0.8);
+        }
+        
+        .login-box {
+            background: rgba(255,255,255,0.05);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 1px solid var(--primary);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .admin-panel {
+            padding: 2rem;
+            display: none;
+        }
+        
+        .scooter-card {
+            background: rgba(255,255,255,0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid rgba(0,243,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <i class="fas fa-lock" style="font-size: 3rem; color: #00f3ff; margin-bottom: 1rem;"></i>
+            <h2>АДМІН ПАНЕЛЬ</h2>
+            <p style="color: #8a8aa3; margin-bottom: 2rem;">Введіть пароль</p>
+            
+            <input type="password" id="password" placeholder="Пароль" style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: rgba(255,255,255,0.08); border: 1px solid #00f3ff; border-radius: 8px; color: white;">
+            
+            <button onclick="login()" style="width: 100%; padding: 1rem; background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                Увійти
+            </button>
+            
+            <p style="margin-top: 1rem; color: #8a8aa3; font-size: 0.9rem;">
+                <i class="fas fa-info-circle"></i> Пароль: He3nX59jw1q92ws
+            </p>
+        </div>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1><i class="fas fa-cogs"></i> Управління сайтом</h1>
+            <button onclick="logout()" style="background: #ff5555; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer;">
+                Вийти
+            </button>
+        </div>
+        
+        <!-- Bookings -->
+        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+            <h2 style="color: #00f3ff;"><i class="fas fa-calendar-alt"></i> Бронювання</h2>
+            <div id="bookingsList"></div>
+        </div>
+        
+        <!-- Scooters -->
+        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 15px;">
+            <h2 style="color: #00f3ff;"><i class="fas fa-motorcycle"></i> Скутери</h2>
+            <div id="scootersList"></div>
+            
+            <h3 style="margin-top: 2rem;">Додати новий скутер</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <input type="text" id="newName" placeholder="Назва" style="padding: 0.8rem; background: rgba(255,255,255,0.08); border: 1px solid #00f3ff; border-radius: 8px; color: white;">
+                <input type="number" id="newPrice" placeholder="Ціна" style="padding: 0.8rem; background: rgba(255,255,255,0.08); border: 1px solid #00f3ff; border-radius: 8px; color: white;">
+                <input type="number" id="newAvailable" placeholder="Кількість" style="padding: 0.8rem; background: rgba(255,255,255,0.08); border: 1px solid #00f3ff; border-radius: 8px; color: white;">
+                <button onclick="addScooter()" style="background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; border: none; border-radius: 8px; padding: 0.8rem; cursor: pointer;">
+                    <i class="fas fa-plus"></i> Додати
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const ADMIN_PASSWORD = 'He3nX59jw1q92ws';
+        
+        function login() {
+            const password = document.getElementById('password').value;
+            if (password === ADMIN_PASSWORD) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                showAdminPanel();
+            } else {
+                alert('Невірний пароль!');
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
+        
+        function showAdminPanel() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadData();
+        }
+        
+        function loadData() {
+            // Бронювання
+            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            document.getElementById('bookingsList').innerHTML = 
+                bookings.map(b => `
+                    <div class="scooter-card">
+                        <strong>${b.name}</strong> | ${b.phone} | ${b.age} років<br>
+                        Дата: ${b.rentalDate} | Статус: <span style="color: #00ff88;">${b.status || 'pending'}</span>
+                    </div>
+                `).join('') || '<p>Немає бронювань</p>';
+            
+            // Скутери
+            const scooters = JSON.parse(localStorage.getItem('scooters') || '[]');
+            document.getElementById('scootersList').innerHTML = 
+                scooters.map(s => `
+                    <div class="scooter-card">
+                        <strong>${s.name}</strong> - ${s.pricePerHour} грн/год<br>
+                        Доступно: ${s.available} | Швидкість: ${s.maxSpeed} км/год
+                        <button onclick="deleteScooter('${s.id}')" style="background: #ff5555; color: white; border: none; padding: 0.5rem; border-radius: 5px; margin-left: 1rem; cursor: pointer;">
+                            Видалити
+                        </button>
+                    </div>
+                `).join('');
+        }
+        
+        function addScooter() {
+            const scooters = JSON.parse(localStorage.getItem('scooters') || '[]');
+            const newScooter = {
+                id: Date.now().toString(),
+                name: document.getElementById('newName').value,
+                pricePerHour: parseInt(document.getElementById('newPrice').value),
+                available: parseInt(document.getElementById('newAvailable').value),
+                maxSpeed: 80,
+                range: 150,
+                features: ['Новий']
+            };
+            
+            scooters.push(newScooter);
+            localStorage.setItem('scooters', JSON.stringify(scooters));
+            loadData();
+            
+            // Очистити поля
+            document.getElementById('newName').value = '';
+            document.getElementById('newPrice').value = '';
+            document.getElementById('newAvailable').value = '';
+        }
+        
+        function deleteScooter(id) {
+            if (!confirm('Видалити цей скутер?')) return;
+            
+            const scooters = JSON.parse(localStorage.getItem('scooters') || '[]');
+            const filtered = scooters.filter(s => s.id !== id);
+            localStorage.setItem('scooters', JSON.stringify(filtered));
+            loadData();
+        }
+        
+        // Автоматичний вхід при перезавантаженні
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('adminLoggedIn') === 'true') {
+                showAdminPanel();
+            }
+        });
+    </script>
+</body>
+</html>
