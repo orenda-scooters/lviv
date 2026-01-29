@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroRide - Оренда скутерів</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Анімації прямо в HTML */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px #00f3ff; }
+            50% { box-shadow: 0 0 40px #ff00ff; }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <i class="fas fa-motorcycle fa-spin" style="font-size: 4rem; color: #00f3ff;"></i>
+            <p style="margin-top: 20px; font-family: 'Orbitron';">ELECTRO<span style="color: #00f3ff;">RIDE</span></p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" style="position: fixed; top: 0; width: 100%; background: rgba(10,10,26,0.95); padding: 1rem; z-index: 1000;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px; font-family: 'Orbitron'; font-size: 1.5rem;">
+                <i class="fas fa-bolt" style="color: #00f3ff;"></i>
+                <span>ELECTRO<span style="color: #00f3ff;">RIDE</span></span>
+            </div>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#home" class="nav-link">Головна</a>
+                <a href="#scooters" class="nav-link">Скутери</a>
+                <a href="#booking" class="nav-link">Бронювання</a>
+                <a href="admin.html" class="nav-link" style="background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; padding: 0.5rem 1.5rem; border-radius: 25px;">
+                    <i class="fas fa-lock"></i> Адмін
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" style="min-height: 100vh; background: linear-gradient(135deg, #050510, #0a0a1a); display: flex; align-items: center; padding: 6rem 2rem; position: relative;">
+        <div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                <div>
+                    <h1 style="font-family: 'Orbitron'; font-size: 4rem; margin-bottom: 1rem; background: linear-gradient(45deg, #00f3ff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        ЗАРЯДЖЕНІ<br>ЕМОЦІЇ
+                    </h1>
+                    <p style="color: #8a8aa3; font-size: 1.2rem; margin-bottom: 2rem;">Преміальна оренда електричних скутерів</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 3rem 0;">
+                        <div class="stat-card" style="padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(0,243,255,0.1);">
+                            <i class="fas fa-bolt" style="color: #00f3ff; font-size: 2rem;"></i>
+                            <div>
+                                <span class="stat-number" data-count="150">0</span> км
+                                <div style="font-size: 0.9rem; color: #8a8aa3;">запас ходу</div>
+                            </div>
+                        </div>
+                        <!-- ще 2 статистики -->
+                    </div>
+                    
+                    <button onclick="scrollToBooking()" style="background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; border: none; padding: 1.2rem 2.5rem; border-radius: 50px; font-family: 'Orbitron'; font-weight: 700; cursor: pointer; animation: glow 2s infinite;">
+                        ЗАБРОНЮВАТИ ЗАРАЗ <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div style="text-align: center;">
+                    <i class="fas fa-motorcycle" style="font-size: 15rem; color: #00f3ff; animation: float 3s ease-in-out infinite;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scooters Section -->
+    <section id="scooters" style="padding: 6rem 2rem; background: #0a0a1a;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="text-align: center; font-family: 'Orbitron'; font-size: 3rem; margin-bottom: 1rem;">
+                НАША <span style="background: linear-gradient(45deg, #00f3ff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ТЕХНІКА</span>
+            </h2>
+            <p style="text-align: center; color: #8a8aa3; margin-bottom: 4rem;">Оберіть ідеальний скутер</p>
+            
+            <div id="scootersContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <!-- Скутери додаються через JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" style="padding: 6rem 2rem; background: linear-gradient(135deg, #050510, #0a0a1a);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="text-align: center; font-family: 'Orbitron'; font-size: 3rem; margin-bottom: 1rem;">
+                ШВИДКЕ <span style="background: linear-gradient(45deg, #00f3ff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">БРОНЮВАННЯ</span>
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-top: 4rem;">
+                <!-- Форма бронювання -->
+                <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(0,243,255,0.1);">
+                    <h3 style="color: #00f3ff; margin-bottom: 2rem;">Заповніть форму</h3>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="clientName" placeholder="Ваше ім'я" style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="number" id="clientAge" placeholder="Ваш вік" style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="tel" id="clientPhone" placeholder="Номер телефону" style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="date" id="rentalDate" style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white;">
+                    </div>
+                    
+                    <button onclick="submitBooking()" style="width: 100%; padding: 1rem; background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; border: none; border-radius: 8px; font-family: 'Orbitron'; font-weight: 700; cursor: pointer;">
+                        ЗАБРОНЮВАТИ
+                    </button>
+                </div>
+                
+                <!-- Контакти -->
+                <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(0,243,255,0.1);">
+                    <h3 style="color: #00f3ff; margin-bottom: 1.5rem;">Контакти</h3>
+                    
+                    <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-phone" style="color: #00f3ff; font-size: 1.5rem;"></i>
+                        <div>
+                            <a href="tel:+380937474800" style="color: #00f3ff; text-decoration: none; font-weight: bold;">+380 (93) 747 48 00</a>
+                            <div style="font-size: 0.9rem; color: #8a8aa3;">Дзвінки, Viber, Telegram</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-robot" style="color: #00f3ff; font-size: 1.5rem;"></i>
+                        <div>
+                            <div style="font-weight: bold;">Telegram бот</div>
+                            <div style="font-size: 0.9rem; color: #8a8aa3;">@ElectroRideBot</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #050510; padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(0,243,255,0.1);">
+        <p>&copy; 2024 ElectroRide. Всі права захищені.</p>
+        <p style="color: #8a8aa3; margin-top: 0.5rem;">Преміальна оренда електричних скутерів</p>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 2000;">
+        <div style="background: #0a0a1a; padding: 3rem; border-radius: 15px; max-width: 500px; text-align: center; border: 1px solid #00f3ff;">
+            <i class="fas fa-check-circle" style="color: #00ff88; font-size: 4rem; margin-bottom: 1.5rem;"></i>
+            <h3 style="color: white; margin-bottom: 1rem;">Бронювання успішне!</h3>
+            <p style="color: #8a8aa3; margin-bottom: 2rem;">Ми зв'яжемося з вами протягом 5 хвилин</p>
+            <button onclick="closeModal()" style="background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; border: none; padding: 0.8rem 2rem; border-radius: 25px; cursor: pointer;">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // БАЗА ДАНИХ В LOCALSTORAGE
+        const DB = {
+            getScooters() {
+                const saved = localStorage.getItem('scooters');
+                if (saved) return JSON.parse(saved);
+                
+                // Початкові дані
+                const defaultScooters = [
+                    {
+                        id: '1',
+                        name: 'Xiaomi Mi Electric Scooter Pro 2',
+                        description: 'Потужний електричний скутер',
+                        pricePerHour: 150,
+                        available: 5,
+                        maxSpeed: 80,
+                        range: 150,
+                        features: ['Підсвітка', 'GPS', 'Турбо']
+                    },
+                    {
+                        id: '2',
+                        name: 'Segway Ninebot MAX',
+                        description: 'Надійний скутер з великим запасом ходу',
+                        pricePerHour: 180,
+                        available: 3,
+                        maxSpeed: 85,
+                        range: 160,
+                        features: ['Водонепроникність', 'Двоїсті гальма']
+                    }
+                ];
+                localStorage.setItem('scooters', JSON.stringify(defaultScooters));
+                return defaultScooters;
+            },
+            
+            getBookings() {
+                return JSON.parse(localStorage.getItem('bookings') || '[]');
+            },
+            
+            saveBooking(booking) {
+                const bookings = this.getBookings();
+                booking.id = Date.now().toString();
+                booking.status = 'pending';
+                booking.createdAt = new Date().toISOString();
+                bookings.push(booking);
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+                return booking;
+            },
+            
+            updateScooter(scooterId, updates) {
+                const scooters = this.getScooters();
+                const index = scooters.findIndex(s => s.id === scooterId);
+                if (index > -1) {
+                    scooters[index] = { ...scooters[index], ...updates };
+                    localStorage.setItem('scooters', JSON.stringify(scooters));
+                }
+            }
+        };
+
+        // ОСНОВНИЙ КОД
+        document.addEventListener('DOMContentLoaded', function() {
+            // Приховати прелоадер
+            setTimeout(() => {
+                document.querySelector('.preloader').style.display = 'none';
+            }, 2000);
+            
+            // Завантажити скутери
+            displayScooters();
+            
+            // Анімація чисел
+            animateNumbers();
+            
+            // Налаштувати дату
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('rentalDate').min = today;
+            document.getElementById('rentalDate').value = today;
+        });
+
+        function displayScooters() {
+            const scooters = DB.getScooters();
+            const container = document.getElementById('scootersContainer');
+            
+            container.innerHTML = scooters.map(scooter => `
+                <div class="scooter-card" style="background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; border: 1px solid rgba(0,243,255,0.1); transition: all 0.3s; animation: slideIn 0.5s ease;">
+                    <div style="height: 200px; background: linear-gradient(45deg, #050510, #0a0a1a); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-motorcycle" style="font-size: 6rem; color: #00f3ff;"></i>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3 style="font-family: 'Orbitron'; margin-bottom: 0.5rem;">${scooter.name}</h3>
+                        <p style="color: #8a8aa3; margin-bottom: 1rem;">${scooter.description}</p>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+                            ${scooter.features.map(f => `<span style="background: rgba(0,243,255,0.1); color: #00f3ff; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">${f}</span>`).join('')}
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="text-align: center; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                <i class="fas fa-tachometer-alt" style="color: #00f3ff;"></i>
+                                <div style="font-family: 'Orbitron'; font-weight: bold;">${scooter.maxSpeed} км/год</div>
+                                <div style="font-size: 0.8rem; color: #8a8aa3;">Швидкість</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                <i class="fas fa-road" style="color: #00f3ff;"></i>
+                                <div style="font-family: 'Orbitron'; font-weight: bold;">${scooter.range} км</div>
+                                <div style="font-size: 0.8rem; color: #8a8aa3;">Запас ходу</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <div>
+                                <div style="font-family: 'Orbitron'; font-size: 1.5rem; color: #00ff88;">${scooter.pricePerHour} грн/год</div>
+                                <div style="color: ${scooter.available > 0 ? '#00ff88' : '#ff5555'};">${scooter.available > 0 ? `${scooter.available} доступно` : 'Немає'}</div>
+                            </div>
+                            <button onclick="selectScooter('${scooter.id}')" ${scooter.available === 0 ? 'disabled' : ''} style="background: linear-gradient(45deg, #00f3ff, #ff00ff); color: #050510; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; cursor: pointer; ${scooter.available === 0 ? 'opacity: 0.5;' : ''}">
+                                ${scooter.available > 0 ? 'Обрати' : 'Немає'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectScooter(scooterId) {
+            const scooter = DB.getScooters().find(s => s.id === scooterId);
+            if (scooter && scooter.available > 0) {
+                scrollToBooking();
+                // Тут можна додати логіку вибору
+            }
+        }
+
+        function submitBooking() {
+            const name = document.getElementById('clientName').value;
+            const age = document.getElementById('clientAge').value;
+            const phone = document.getElementById('clientPhone').value;
+            const date = document.getElementById('rentalDate').value;
+            
+            if (!name || !age || !phone || !date) {
+                alert('Будь ласка, заповніть всі поля');
+                return;
+            }
+            
+            const booking = {
+                name,
+                age: parseInt(age),
+                phone,
+                rentalDate: date,
+                createdAt: new Date().toISOString()
+            };
+            
+            DB.saveBooking(booking);
+            
+            // Відправити в Telegram (симуляція)
+            sendTelegram(booking);
+            
+            // Показати успіх
+            document.getElementById('successModal').style.display = 'flex';
+            
+            // Очистити форму
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientAge').value = '';
+            document.getElementById('clientPhone').value = '';
+        }
+
+        function sendTelegram(booking) {
+            const token = '8094288522:AAEFWlATuy283xt3Mrt5dMn9PXKD7McHE0I';
+            const chatId = '7698760202';
+            const message = `
+🚀 НОВЕ БРОНЮВАННЯ
+👤 Ім'я: ${booking.name}
+📞 Телефон: ${booking.phone}
+🎂 Вік: ${booking.age}
+📅 Дата: ${booking.rentalDate}
+            `;
+            
+            // У реальному проекті це робиться через сервер
+            console.log('Telegram повідомлення:', message);
+            
+            // Спроба відправити (працює тільки з CORS)
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            }).catch(err => console.log('Telegram помилка:', err));
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        function scrollToBooking() {
+            document.getElementById('booking').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function animateNumbers() {
+            document.querySelectorAll('.stat-number').forEach(el => {
+                const target = parseInt(el.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 50;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        el.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.floor(current);
+                    }
+                }, 40);
+            });
+        }
+    </script>
+</body>
+</html>
