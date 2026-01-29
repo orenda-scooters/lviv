@@ -1,0 +1,104 @@
+/* style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Exo 2', sans-serif;
+    background: #0a0a1a;
+    color: white;
+    overflow-x: hidden;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #00f3ff;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #00f3ff;
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #050510;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+input, button {
+    font-family: inherit;
+}
+
+input:focus {
+    outline: none;
+    border-color: #00f3ff !important;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+}
+
+.stat-card {
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #00f3ff !important;
+}
+
+.scooter-card:hover {
+    transform: translateY(-10px);
+    border-color: #00f3ff !important;
+    box-shadow: 0 10px 30px rgba(0, 243, 255, 0.2);
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+    .navbar div:nth-child(2) {
+        display: none;
+    }
+    
+    section > div {
+        grid-template-columns: 1fr !important;
+    }
+    
+    #booking > div > div {
+        grid-template-columns: 1fr !important;
+    }
+}
